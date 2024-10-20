@@ -1,0 +1,762 @@
+/******************************************************************************
+
+doubly Linked List (All the operations)
+
+1.Create the doubly Linked List
+2.Printing the doubly Linked List after creation from head
+3.Printing the doubly Linked List after creation from tail
+4.Insert at the begining of doubly Linked List
+5.Insert at the end of doubly Linked List
+6.Insert at any position (before the specified position)
+7.Insert at any position (after the specified position)
+8.delete at the begining of doubly Linked List
+9.delete at the end of doubly Linked List
+10.delete at any position of doubly Linked List
+11.Reversing the doubly Linked List
+12.Reversing the element from the particular position
+13.Swapping two elements in the List from the position given
+
+*******************************************************************************/
+
+#include <stdio.h>
+#include <stdlib.h> 
+
+struct node
+{
+    struct node *prev;
+    int data;
+    struct node *next;
+};
+
+struct node *head=0;
+struct node *tail=0; //Access from tail (also possible)
+
+void create_doubly_linked_list()
+{
+    struct node *newnode = (struct node*)malloc(sizeof(struct node));
+    printf("Enter a data to add in the doubly Linked list: ");
+    scanf("%d",&newnode->data);
+    newnode->next = 0;
+    newnode->prev = 0;
+    
+    if(head==0)
+    {
+        head = tail = newnode;
+    }
+    else
+    {
+        newnode->prev = tail;
+        tail->next    = newnode;
+        tail          = newnode;
+    }
+}
+
+int traverse_the_doubly_linked_list_from_head()
+{
+    struct node *temp = head;
+    int count = 0;
+    
+    if(head==0)
+    {
+        printf("No elements in the doubly Linked List...");
+    }
+    else
+    {
+        while(temp!=0)
+        {
+            printf("%d ",temp->data);
+            temp = temp->next;
+            count++;
+        }
+    }
+    printf("\nThe Number of elements in the doubly Linked List is: %d\n",count);
+    return count;
+}
+
+
+int traverse_the_doubly_linked_list_from_tail()
+{
+    struct node *temp = tail;
+    int count = 0;
+    
+    if(tail==0)
+    {
+        printf("No elements in the doubly Linked List...");
+    }
+    else
+    {
+        while(temp!=0)
+        {
+            printf("%d ",temp->data);
+            temp = temp->prev;
+            count++;
+        }
+    }
+    printf("\nThe Number of elements in the doubly Linked List is: %d\n",count);
+    return count;
+}
+
+
+void insert_at_the_begining()
+{
+    struct node *newnode = (struct node*)malloc(sizeof(struct node));
+    printf("Enter a data to add in the doubly Linked list: ");
+    scanf("%d",&newnode->data);
+    newnode->next = 0;
+    newnode->prev = 0;
+    
+    if(head==0 || tail==0)
+    {
+        head = tail= newnode;
+    }
+    else
+    {
+        newnode->next = head;
+        head->prev    = newnode;
+        head          = newnode;
+    }
+}
+
+
+void insert_at_the_end()
+{
+    struct node *newnode = (struct node*)malloc(sizeof(struct node));
+    printf("Enter a data to add in the doubly Linked list: ");
+    scanf("%d",&newnode->data);
+    newnode->next = 0;
+    newnode->prev = 0;
+    
+    if(tail==0 || head==0)
+    {
+        head=tail=newnode;
+    }
+    else
+    {
+        newnode->prev = tail;
+        tail->next    = newnode;
+        tail          = newnode;
+    }
+}
+
+
+void insert_at_any_position_bef(int count)
+{
+    if(head==0 || tail==0)
+    {
+        struct node *newnode = (struct node*)malloc(sizeof(struct node));
+        printf("Enter a data to add in the doubly Linked list: ");
+        scanf("%d",&newnode->data);
+        newnode->next = 0;
+        newnode->prev = 0;
+        
+        printf("\"No elements in the List, so it is the first node(No position required)\"\n");
+        head = tail = newnode;
+    }
+    else
+    {
+        int pos, i=1;
+        printf("Enter the position where you want to add the node: ");
+        scanf("%d",&pos);
+        
+        if(pos<1 || pos>count)
+        {
+            printf("\"Invalid Position\"\n");
+        }
+        else if(pos == 1)
+        {
+            insert_at_the_begining();
+        }
+        else
+        {
+            struct node *newnode = (struct node*)malloc(sizeof(struct node));
+            printf("Enter a data to add in the doubly Linked list: ");
+            scanf("%d",&newnode->data);
+            newnode->next = 0;
+            newnode->prev = 0;
+            
+            struct node *temp = head;
+            while(i<pos-1)
+            {
+                temp = temp->next;
+                i++;
+            }
+            newnode->next    = temp->next;
+            newnode->prev    = temp;
+            temp->next->prev = newnode;
+            temp->next    = newnode;
+        }
+    }
+}
+
+
+void insert_at_any_position_aft(int count)
+{
+    if(head==0 || tail==0)
+    {
+        struct node *newnode = (struct node*)malloc(sizeof(struct node));
+        printf("Enter a data to add in the doubly Linked list: ");
+        scanf("%d",&newnode->data);
+        newnode->next = 0;
+        newnode->prev = 0;
+        
+        printf("\"No elements in the List, so it is the first node(No position required)\"\n");
+        head = tail = newnode;
+    }
+    else
+    {
+        int pos, i=1;
+        printf("Enter the position where you want to add the node: ");
+        scanf("%d",&pos);
+        
+        if(pos<1 || pos>count)
+        {
+            printf("\"Invalid Position\"\n");
+        }
+        else if(pos == count)
+        {
+            insert_at_the_end();
+        }
+        else
+        {
+            struct node *newnode = (struct node*)malloc(sizeof(struct node));
+            printf("Enter a data to add in the doubly Linked list: ");
+            scanf("%d",&newnode->data);
+            newnode->next = 0;
+            newnode->prev = 0;
+            
+            struct node *temp = head;
+            while(i<pos)
+            {
+                temp = temp->next;
+                i++;
+            }
+            newnode->next = temp->next;
+            newnode->prev = temp;
+            temp->next->prev    = newnode;
+            temp->next          = newnode;
+        }
+    }
+}
+
+
+void delete_at_the_begining()
+{
+    if(head==0 || tail==0)
+    {
+        printf("\"Nothing to delete. Because No nodes in the List\"\n");
+    }
+    else
+    {
+        struct node *temp=head;
+        if(head->next==0)
+        {
+            head=0;
+            free(temp);
+        }
+        else
+        {
+            head       = head->next;
+            head->prev = 0;
+            temp->next  = 0;
+            free(temp);
+        }
+    }
+}
+
+
+void delete_at_the_end()
+{
+    if(head==0 || tail==0)
+    {
+        printf("\"Nothing to delete. Because No nodes in the List\"\n");
+    }
+    else
+    {
+        struct node *temp=tail;
+        if(head->next==0)
+        {
+            head=0;
+            free(temp);
+        }
+        else
+        {
+            tail       = tail->prev;
+            tail->next = 0;
+            temp->prev = 0;
+            free(temp);
+        }
+    }
+}
+
+
+void delete_at_any_pos(int count)
+{
+    struct node *temp = head;
+    int pos;
+    printf("Enter the position where you want to delete the node: ");
+    scanf("%d",&pos);
+    
+    if(head==0 || tail==0)
+    {
+        printf("\"Nothing to delete. Because No nodes in the List\"\n");
+    }
+    else if(pos<1 || pos>count)
+    {
+        printf("\"Invalid Position\"\n"); 
+    }
+    else if(pos==1)
+    {
+        delete_at_the_begining();
+    }
+    else if(pos==count)
+    {
+        delete_at_the_end();
+    }
+    else
+    {
+        int i=1;
+        
+        while(i<pos)
+        {
+            temp = temp->next;
+            i++;
+        }
+        temp->prev->next = temp->next;
+        temp->next->prev = temp->prev;
+        free(temp);
+    }
+}
+
+
+void reverse_of_doubly_Linked_List()
+{
+    if(head==0 || tail==0 || head==tail)
+    {
+        head = head;
+    }
+    else
+    {
+        struct node *temp, *current = head;
+        
+        while(current!=0)
+        {
+            temp = current->next;
+            current->next = current->prev;
+            current->prev = temp;
+            current       = current->prev;
+        }
+        temp = head;
+        head = tail;
+        tail = temp;
+    }
+}
+
+
+void reverse_of_doubly_Linked_List_from_position(int count,int pos)
+{
+    if(head==0 || tail==0 || head==tail)
+    {
+        head = head;
+    }
+    else
+    {
+        if(pos<1 || pos>count)
+        {
+            printf("\"Invalid Position\"\n");
+        }
+        else if(pos==1)
+        {
+            reverse_of_doubly_Linked_List();
+        }
+        else if(pos==count)
+        {
+            head = head;
+        }
+        else
+        {
+            int i=1;
+            struct node *temp1,*previous, *temp=head, *exchange;
+            while(i<pos)
+            {
+                temp1 = temp;     
+                temp = temp->next;
+                i++;
+            }
+            tail = temp;
+            
+            while(temp!=0)
+            {
+               exchange   = temp->next;
+               temp->next = temp->prev;
+               temp->prev = exchange;
+               previous   = temp;
+               temp       =temp->prev;
+            }
+            temp1->next->next = 0;
+            temp1->next       = previous;
+            previous->prev    = temp1;
+        }
+    }
+}
+
+
+void swap_of_two_elements_doubly_Linked_List_from_position(int count,int pos)
+{
+   struct node *temp=head, *first, *second, *nextnode;
+   
+   if(head==0 || head->next==0 || pos==count)
+    {
+        head = head;
+    }
+    else if(count==2)
+    {
+        reverse_of_doubly_Linked_List();
+    }
+    else
+    {
+        if(pos<1 || pos>count)
+        {
+            printf("\"Invalid Position\"\n");
+        }
+        else if(pos==count-1)
+        {
+            temp  = tail->prev->prev;
+            first = tail->prev;
+            second = tail;
+            
+            temp->next = second;
+            second->prev = temp;
+            
+            second->next = first;
+            first->prev  = second;
+            first->next  = 0;
+            tail         = first;
+        }
+        else if(pos==1)
+        {
+            first = head;
+            second = first->next;
+            temp   = second->next;
+            
+            temp->prev = first;
+            first->next = temp;
+            first->prev = second;
+            
+            second->prev = 0;
+            second->next = first;
+            head         = second;
+        }
+        else
+        {
+            int i=1;
+            while(i<pos-1)
+            {
+                temp= temp->next;
+                i++;
+            }
+            first   = temp->next;
+            second  =first->next;
+            nextnode=second->next;
+            
+            nextnode->prev = first;
+            first->next    = nextnode;
+            temp->next     = second;
+            second->prev   = temp;
+            second->next   = first;
+            first->prev   = second;
+        }
+    }
+}
+
+
+int main()
+{
+    //1.Create the doubly Linked List
+    printf("---Creating doubly Linked List---\n");
+    
+    int create_doubly_list;
+    printf("Press 1 to add first element in doubly Linked list or zero: ");
+    scanf("%d",&create_doubly_list);
+    
+    while(create_doubly_list)
+    {
+      create_doubly_linked_list();  
+      printf("Press 1 to add more element in doubly Linked list or zero to end: ");
+      scanf("%d",&create_doubly_list);
+    }
+    
+    
+    //2.Printing the doubly Linked List from head after creation
+    printf("\n---Printing the created doubly Linked List from head---\n");
+    
+    int no_of_elements = 0;
+    no_of_elements = traverse_the_doubly_linked_list_from_head();
+    
+    
+    //3.Printing the doubly Linked List from tail after creation
+    printf("\n---Printing the created doubly Linked List from tail---\n");
+    
+    no_of_elements = traverse_the_doubly_linked_list_from_tail();
+    
+    
+    //4.Insert at the begining of doubly Linked List
+    printf("\n---Insert Element at the begining---\n");
+    
+    int insert_at_begining;
+    printf("Press 1 to add element at the begining: ");
+    scanf("%d",&insert_at_begining);
+    
+    while(insert_at_begining)
+    {
+        insert_at_the_begining();
+        
+        //Printing the doubly Linked List after insert at the begining
+        printf("---Printing the doubly Linked List after insertion at begining from head---\n");
+    
+        no_of_elements = traverse_the_doubly_linked_list_from_head();
+        
+        //Printing the doubly Linked List from tail after creation
+        printf("---Printing the doubly Linked List after insertion at begining from tail---\n");
+    
+        no_of_elements = traverse_the_doubly_linked_list_from_tail();
+        
+        printf("Press 1 to add more element at the begining: ");
+        scanf("%d",&insert_at_begining);
+    }
+    
+
+    //5.Insert at the end of doubly Linked List
+    printf("\n---Insert Element at the end---\n");
+    
+    int insert_at_end;
+    printf("Press 1 to add element at the end: ");
+    scanf("%d",&insert_at_end);
+    
+    while(insert_at_end)
+    {
+        insert_at_the_end();  
+        
+        //Printing the doubly Linked List after insert at the end
+        printf("---Printing the doubly Linked List after insertion at end from head---\n");
+    
+        no_of_elements = traverse_the_doubly_linked_list_from_head();
+        
+        //Printing the doubly Linked List from tail after creation
+        printf("---Printing the doubly Linked List after insertion at end from tail---\n");
+    
+        no_of_elements = traverse_the_doubly_linked_list_from_tail();
+        
+        printf("Press 1 to add more element at the end: ");
+        scanf("%d",&insert_at_end);
+    }
+    
+    
+    //6.Insert at any position (before the specified position)
+    printf("\n---Insert any position (before the specified position)---\n");
+    
+    int insert_any_pos_bef;
+    printf("Press 1 to add element at any position (before): ");
+    scanf("%d",&insert_any_pos_bef);
+    
+    while(insert_any_pos_bef)
+    {
+        insert_at_any_position_bef(no_of_elements); 
+        
+        //Printing the doubly Linked List after insert at any position (before the specified position)
+        printf("---Printing the doubly Linked List after insertion at any position(before) from head---\n");
+        
+        no_of_elements = traverse_the_doubly_linked_list_from_head();
+        
+        //Printing the doubly Linked List from tail after creation
+        printf("---Printing the doubly Linked List after insertion at any position(before) from tail---\n");
+    
+        no_of_elements = traverse_the_doubly_linked_list_from_tail();
+    
+        printf("Press 1 to add more element at any position (before): ");
+        scanf("%d",&insert_any_pos_bef);
+    }
+    
+    
+    //7.Insert at any position (after the specified position)
+    printf("\n---Insert any position (after the specified position)---\n");
+    
+    int insert_any_pos_aft;
+    printf("Press 1 to add element at any position (after): ");
+    scanf("%d",&insert_any_pos_aft);
+    
+    while(insert_any_pos_aft)
+    {
+        insert_at_any_position_aft(no_of_elements); 
+        
+        //Printing the doubly Linked List after insert at any position (after the specified position)
+        printf("---Printing the doubly Linked List after, insert at any position(after) from head---\n");
+        
+        no_of_elements = traverse_the_doubly_linked_list_from_head();
+        
+        //Printing the doubly Linked List from tail after creation
+        printf("---Printing the doubly Linked List after, insert at any position(after) from tail---\n");
+    
+        no_of_elements = traverse_the_doubly_linked_list_from_tail();
+    
+        printf("Press 1 to add more element at any position (after): ");
+        scanf("%d",&insert_any_pos_aft);
+    }
+    
+    
+    //8.delete at the begining of doubly Linked List
+    printf("\n---Deleting Element at the begining---\n");
+    
+    int delete_at_begining;
+    printf("Press 1 to delete element at the begining: ");
+    scanf("%d",&delete_at_begining);
+    
+    while(delete_at_begining)
+    {
+        delete_at_the_begining();
+        
+        //Printing the doubly Linked List after deleting at the begining
+        printf("---Printing the doubly Linked List after deleting at begining from head---\n");
+    
+        no_of_elements = traverse_the_doubly_linked_list_from_head();
+        
+        //Printing the doubly Linked List from tail after creation
+        printf("---Printing the doubly Linked List after deleting at begining from tail---\n");
+    
+        no_of_elements = traverse_the_doubly_linked_list_from_tail();
+        
+        printf("Press 1 to delete next element at the begining: ");
+        scanf("%d",&delete_at_begining);
+    }
+    
+    
+    //9.delete at the end of doubly Linked List
+    printf("\n---Deleting Element at the end---\n");
+    
+    int delete_at_end;
+    printf("Press 1 to delete element at the end: ");
+    scanf("%d",&delete_at_end);
+    
+    while(delete_at_end)
+    {
+        delete_at_the_end();
+        
+        //Printing the doubly Linked List after deleting at the end
+        printf("---Printing the doubly Linked List after deleting at end from head---\n");
+    
+        no_of_elements = traverse_the_doubly_linked_list_from_head();
+        
+        //Printing the doubly Linked List from tail after creation
+        printf("---Printing the doubly Linked List after deleting at end from tail---\n");
+    
+        no_of_elements = traverse_the_doubly_linked_list_from_tail();
+
+        printf("Press 1 to delete next element at the end: ");
+        scanf("%d",&delete_at_end);
+    }
+    
+    
+    //10.delete at any position of doubly Linked List
+    printf("\n---Deleting Element at any position---\n");
+    
+    int delete_at_pos;
+    printf("Press 1 to delete element at any position: ");
+    scanf("%d",&delete_at_pos);
+    
+    while(delete_at_pos)
+    {
+        delete_at_any_pos(no_of_elements);
+        
+        //Printing the doubly Linked List after deleting at any position
+        printf("---Printing the doubly Linked List after deleting at any position from head---\n");
+    
+        no_of_elements = traverse_the_doubly_linked_list_from_head();
+        
+        //Printing the doubly Linked List from tail after creation
+        printf("---Printing the doubly Linked List after deleting at any position from tail---\n");
+    
+        no_of_elements = traverse_the_doubly_linked_list_from_tail();
+
+        printf("Press 1 to delete next element at any position: ");
+        scanf("%d",&delete_at_pos);
+    }
+    
+
+    //11.Reversing the doubly Linked List
+    printf("\n---Reversing the doubly Linked List---\n");
+    
+    printf("Elements Order before reversing the doubly Linked List from head\n");
+    no_of_elements = traverse_the_doubly_linked_list_from_head();
+    
+    reverse_of_doubly_Linked_List();
+    
+    //Printing the doubly Linked List from head after creation
+    printf("Elements Order after reversing the Linked List from head:\n");
+   
+    no_of_elements  = traverse_the_doubly_linked_list_from_head();
+    
+    //Printing the doubly Linked List from tail after creation
+    printf("Elements Order after reversing the Linked List from tail:\n");
+   
+    no_of_elements  = traverse_the_doubly_linked_list_from_tail();
+    
+    
+    //Again reversing to get initial state
+    reverse_of_doubly_Linked_List(); 
+    
+    printf("\nThis is the Linked List we have created till now(recovered)\n");
+    no_of_elements = traverse_the_doubly_linked_list_from_head();
+    
+    
+    //12.Reversing the element from the particular position
+    printf("\n---Reversing the doubly Linked List from a particular position---\n");
+    
+    int pos;
+    printf("Enter the position where you want to start reverse the node: ");
+    scanf("%d",&pos);
+        
+    reverse_of_doubly_Linked_List_from_position(no_of_elements,pos);
+    
+    //Printing the doubly Linked List from head after creation
+    printf("Elements Order after reversing the Linked List from particular position from head:\n");
+   
+    no_of_elements  = traverse_the_doubly_linked_list_from_head();
+    
+    //Printing the doubly Linked List from tail after creation
+    printf("Elements Order after reversing the Linked List from particular position from tail:\n");
+   
+    no_of_elements  = traverse_the_doubly_linked_list_from_tail();
+    
+    
+    //Again reversing to get initial state(for that position required)
+    reverse_of_doubly_Linked_List_from_position(no_of_elements,pos);
+    
+    printf("\nThis is the Linked List we have created till now(recovered)\n");
+    no_of_elements = traverse_the_doubly_linked_list_from_head();
+    
+    
+    //13.Swapping two elements in the List from the position given
+    printf("\n---Swapping two elements of the doubly Linked List from a given position---\n");
+    
+    int pos1;
+    printf("Enter the position where you want to start swap the node: ");
+    scanf("%d",&pos1);
+        
+    swap_of_two_elements_doubly_Linked_List_from_position(no_of_elements,pos1);
+    
+    
+    //Printing the doubly Linked List from head after creation
+    printf("Elements Order after swapping the Linked List from particular position from head:\n");
+    no_of_elements  = traverse_the_doubly_linked_list_from_head();
+    
+    
+    //Printing the doubly Linked List from tail after creation
+    printf("Elements Order after swapping the Linked List from particular position from tail:\n");
+    no_of_elements  = traverse_the_doubly_linked_list_from_tail();
+    
+    
+    //Again swapping to get initial state(for that position required)
+    swap_of_two_elements_doubly_Linked_List_from_position(no_of_elements,pos1);
+    
+    printf("\nThis is the Linked List we have created till now(recovered)\n");
+    no_of_elements = traverse_the_doubly_linked_list_from_head();
+}
