@@ -2,7 +2,7 @@
 
 doubly Linked List (All the operations)
 
-1.Create the doubly Linked List
+1.Create the doubly Linked List using head and tail
 2.Printing the doubly Linked List after creation from head
 3.Printing the doubly Linked List after creation from tail
 4.Insert at the begining of doubly Linked List
@@ -15,6 +15,7 @@ doubly Linked List (All the operations)
 11.Reversing the doubly Linked List
 12.Reversing the element from the particular position
 13.Swapping two elements in the List from the position given
+14.Creating doubly Linked List using only tail pointer
 
 *******************************************************************************/
 
@@ -31,8 +32,10 @@ struct node
 struct node *head=0;
 struct node *tail=0; //Access from tail (also possible)
 
-void create_doubly_linked_list()
+void create_doubly_linked_list_using_head_and_tail()
 {
+    //Using only head is similar to this (except tail use temp. Because head can't move)
+    
     struct node *newnode = (struct node*)malloc(sizeof(struct node));
     printf("Enter a data to add in the doubly Linked list: ");
     scanf("%d",&newnode->data);
@@ -468,11 +471,31 @@ void swap_of_two_elements_doubly_Linked_List_from_position(int count,int pos)
     }
 }
 
+void create_doubly_linked_list_using_tail()
+{
+   struct node *newnode = (struct node*)malloc(sizeof(struct node));
+    printf("Enter a data to add in the doubly Linked list: ");
+    scanf("%d",&newnode->data);
+    newnode->next = 0;
+    newnode->prev = 0;
+    
+    if(tail==0)
+    {
+        tail = newnode;
+    }
+    else
+    {
+        tail->next   = newnode;
+        newnode->prev= tail;
+        tail = newnode;
+    }
+}
+
 
 int main()
 {
     //1.Create the doubly Linked List
-    printf("---Creating doubly Linked List---\n");
+    printf("---Creating doubly Linked List(general)---\n");
     
     int create_doubly_list;
     printf("Press 1 to add first element in doubly Linked list or zero: ");
@@ -480,7 +503,7 @@ int main()
     
     while(create_doubly_list)
     {
-      create_doubly_linked_list();  
+      create_doubly_linked_list_using_head_and_tail();
       printf("Press 1 to add more element in doubly Linked list or zero to end: ");
       scanf("%d",&create_doubly_list);
     }
@@ -759,4 +782,26 @@ int main()
     
     printf("\nThis is the Linked List we have created till now(recovered)\n");
     no_of_elements = traverse_the_doubly_linked_list_from_head();
+    
+    
+    //14.Creating doubly Linked List using only tail pointer
+    printf("\n---Creating doubly Linked List using only tail---\n");
+    
+    int create_doubly_list_using_tail;
+    printf("Press 1 to add first element in doubly Linked list or zero: ");
+    scanf("%d",&create_doubly_list_using_tail);
+    
+    tail = 0;
+    
+    while(create_doubly_list_using_tail)
+    {
+      create_doubly_linked_list_using_tail();
+      printf("Press 1 to add more element in doubly Linked list or zero to end: ");
+      scanf("%d",&create_doubly_list_using_tail);
+    }
+    
+    //Printing the doubly Linked List after creation
+    printf("\n---Printing the created doubly Linked List(always print in reverse manner)---\n");
+    
+    no_of_elements = traverse_the_doubly_linked_list_from_tail();
 }
